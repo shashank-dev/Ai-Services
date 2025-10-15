@@ -1,0 +1,5 @@
+{
+  "name": "AI Photo Blender",
+  "description": "An intelligent tool that seamlessly adds a person into a group photo, making it look as if they were originally part of the picture. Upload a group photo and a photo of the person to blend them together with AI.",
+  "requestFramePermissions": []
+}
