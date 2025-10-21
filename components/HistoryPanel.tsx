@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { HistoryItem } from '../App';
 import { DownloadIcon } from './icons/DownloadIcon';
@@ -39,7 +40,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onSelect, onClear 
             <p className="mt-4">Your previous generations will appear here.</p>
           </div>
         ) : (
-          <ul className="grid grid-cols-2 gap-3">
+          <ul className="grid grid-cols-3 lg:grid-cols-2 gap-3">
             {history.map(item => {
               const resolutionLabel = resolutionLabels[item.resolution] || item.resolution;
               return (

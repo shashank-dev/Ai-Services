@@ -27,14 +27,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLoginClick, onLogoutClick }) =>
               Logout
             </button>
           </>
-        ) : (
-          <button
-            onClick={onLoginClick}
-            className="px-4 py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-300"
-          >
-            Login / Sign Up
-          </button>
-        )}
+        ) : null}
       </div>
     </header>
   );

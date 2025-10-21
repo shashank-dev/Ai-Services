@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import ImageUploader from './components/ImageUploader';
@@ -196,7 +197,7 @@ const App: React.FC = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto bg-slate-800 rounded-lg shadow-2xl p-6 sm:p-8">
+            <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto bg-slate-800 rounded-lg shadow-2xl p-4 sm:p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <ImageUploader
                     id="group-photo"

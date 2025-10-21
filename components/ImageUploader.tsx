@@ -87,7 +87,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ id, title, description, o
     handleFileSelect(e.dataTransfer.files);
   };
 
-  const baseClasses = "relative group flex flex-col items-center justify-center w-full h-80 bg-slate-800 border-2 border-dashed border-slate-600 rounded-lg cursor-pointer transition-all duration-300 ease-in-out";
+  const baseClasses = "relative group flex flex-col items-center justify-center w-full h-48 sm:h-64 bg-slate-800 border-2 border-dashed border-slate-600 rounded-lg cursor-pointer transition-all duration-300 ease-in-out";
   const hoverClasses = "hover:border-teal-500 hover:bg-slate-700";
   const dragClasses = isDragging ? "border-teal-400 bg-slate-700 scale-105" : "";
   const errorClasses = uploadError ? "border-red-500" : "";
