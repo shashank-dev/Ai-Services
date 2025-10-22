@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Photo Blender</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Explicitly configure Tailwind to use the 'class' strategy for dark mode.
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-image-crop@11.0.6/dist/ReactCrop.css">
     <style>
       body {
@@ -21,6 +27,14 @@
         animation: fade-in 0.3s ease-out forwards;
       }
     </style>
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
   <script type="importmap">
 {
   "imports": {
@@ -33,7 +47,7 @@
 }
 </script>
 </head>
-  <body class="bg-slate-900 text-white">
+  <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

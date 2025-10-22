@@ -28,6 +28,8 @@ export interface HistoryItem {
   generatedImage: string; // base64 string of the result
 }
 
+type Theme = 'light' | 'dark';
+
 const resolutionOptions = [
     { id: 'standard', label: 'Standard', tooltip: 'Fastest | Good for web & social media.' },
     { id: 'hd', label: 'HD', tooltip: 'High Quality | Good for viewing & small prints.' },
@@ -42,6 +44,17 @@ const aspectRatioOptions = [
 ];
 
 const App: React.FC = () => {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedTheme = window.localStorage.getItem('theme') as Theme;
+      if (storedTheme) {
+        return storedTheme;
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return 'light';
+  });
+
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -54,6 +67,20 @@ const App: React.FC = () => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const handleThemeToggle = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
   
   // Check for logged-in user on initial render
   useEffect(() => {
@@ -182,12 +209,12 @@ const App: React.FC = () => {
   const renderMainContent = () => {
     if (!currentUser) {
       return (
-        <div className="text-center p-8 bg-slate-800/50 rounded-lg max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-slate-100">Welcome to the AI Photo Blender</h2>
-            <p className="mt-4 text-slate-400">Please log in or register to begin creating and saving your blended photos. Your personal gallery awaits.</p>
+        <div className="text-center p-8 bg-gray-100 dark:bg-zinc-900 rounded-lg max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold text-[#1a1a1c] dark:text-[#fcfcfc]">Welcome to the AI Photo Blender</h2>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Please log in or register to begin creating and saving your blended photos. Your personal gallery awaits.</p>
             <button
                 onClick={() => setIsAuthModalOpen(true)}
-                className="mt-8 px-8 py-3 text-lg font-bold text-white bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg shadow-lg hover:from-teal-600 hover:to-cyan-700 transition-all duration-300"
+                className="mt-8 px-8 py-3 text-lg font-bold text-white bg-gradient-to-r from-[#864ffe] to-[#e60080] rounded-lg shadow-lg hover:opacity-90 transition-all duration-300"
             >
                 Login / Register
             </button>
@@ -197,7 +224,7 @@ const App: React.FC = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto bg-slate-800 rounded-lg shadow-2xl p-4 sm:p-8">
+            <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto bg-white dark:bg-zinc-900 rounded-lg shadow-2xl p-4 sm:p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <ImageUploader
                     id="group-photo"
@@ -217,15 +244,15 @@ const App: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Output Resolution</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Output Resolution</label>
                         <div className="flex rounded-md shadow-sm">
                             {resolutionOptions.map((option, index) => (
                                 <button
                                     key={option.id}
                                     type="button"
                                     onClick={() => setResolution(option.id)}
-                                    className={`relative -ml-px inline-flex items-center justify-center w-full px-4 py-2 border text-sm font-medium transition-colors focus:z-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-teal-500
-                                    ${resolution === option.id ? 'bg-teal-600 text-white border-teal-500 z-10' : 'bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600'}
+                                    className={`relative -ml-px inline-flex items-center justify-center w-full px-4 py-2 border text-sm font-medium transition-colors focus:z-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-900 focus:ring-[#864ffe]
+                                    ${resolution === option.id ? 'bg-[#864ffe] text-white border-[#864ffe] z-10' : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700 dark:hover:bg-zinc-700'}
                                     ${index === 0 ? 'rounded-l-md' : ''}
                                     ${index === resolutionOptions.length - 1 ? 'rounded-r-md' : ''}`}
                                     title={option.tooltip}
@@ -236,15 +263,15 @@ const App: React.FC = () => {
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-2">Aspect Ratio</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Aspect Ratio</label>
                          <div className="flex rounded-md shadow-sm">
                             {aspectRatioOptions.map((option, index) => (
                                 <button
                                     key={option.id}
                                     type="button"
                                     onClick={() => setAspectRatio(option.id)}
-                                    className={`relative -ml-px inline-flex items-center justify-center w-full px-4 py-2 border text-sm font-medium transition-colors focus:z-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-teal-500
-                                    ${aspectRatio === option.id ? 'bg-teal-600 text-white border-teal-500 z-10' : 'bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600'}
+                                    className={`relative -ml-px inline-flex items-center justify-center w-full px-4 py-2 border text-sm font-medium transition-colors focus:z-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-zinc-900 focus:ring-[#864ffe]
+                                    ${aspectRatio === option.id ? 'bg-[#864ffe] text-white border-[#864ffe] z-10' : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 dark:bg-zinc-800 dark:text-gray-300 dark:border-zinc-700 dark:hover:bg-zinc-700'}
                                     ${index === 0 ? 'rounded-l-md' : ''}
                                     ${index === aspectRatioOptions.length - 1 ? 'rounded-r-md' : ''}`}
                                     title={option.tooltip}
@@ -257,7 +284,7 @@ const App: React.FC = () => {
                 </div>
 
                 {error && (
-                <div className="my-4 p-4 bg-red-900/50 border border-red-700 text-red-300 rounded-md text-center">
+                <div className="my-4 p-4 bg-[#e60080]/10 border border-[#e60080]/50 text-[#e60080] dark:bg-[#e60080]/20 rounded-md text-center">
                     {error}
                 </div>
                 )}
@@ -265,7 +292,7 @@ const App: React.FC = () => {
                 <button
                     type="submit"
                     disabled={!groupPhoto || !personPhoto || isLoading}
-                    className="w-full py-4 text-lg font-bold text-white bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg shadow-lg hover:from-teal-600 hover:to-cyan-700 transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-teal-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:from-slate-600 disabled:to-slate-700"
+                    className="w-full py-4 text-lg font-bold text-white bg-gradient-to-r from-[#864ffe] to-[#e60080] rounded-lg shadow-lg hover:opacity-90 transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-[#864ffe]/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:from-gray-500 disabled:to-gray-600 disabled:hover:opacity-50"
                 >
                     {isLoading ? 'Generating...' : 'Blend Photos'}
                 </button>
@@ -273,12 +300,12 @@ const App: React.FC = () => {
 
             <div className="mt-8 w-full max-w-4xl mx-auto">
                 {isLoading && (
-                    <div className="flex flex-col items-center justify-center text-center p-8 bg-slate-800 rounded-lg">
+                    <div className="flex flex-col items-center justify-center text-center p-8 bg-gray-100 dark:bg-zinc-900 rounded-lg">
                         <Spinner />
-                        <p className="mt-4 text-lg text-slate-300 font-semibold animate-pulse">
+                        <p className="mt-4 text-lg text-gray-700 dark:text-gray-300 font-semibold animate-pulse">
                             AI is blending your photos...
                         </p>
-                        <p className="mt-2 text-sm text-slate-400">
+                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                             This can take a moment. Please wait.
                         </p>
                     </div>
@@ -293,12 +320,14 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-900 text-slate-200 min-h-screen font-sans p-4 sm:p-8">
+    <div className="bg-[#fcfcfc] text-[#1a1a1c] dark:bg-[#1a1a1c] dark:text-[#fcfcfc] min-h-screen font-sans p-4 sm:p-8 transition-colors duration-300">
       <div className="container mx-auto">
         <Header 
           user={currentUser}
           onLoginClick={() => setIsAuthModalOpen(true)}
           onLogoutClick={handleLogout}
+          theme={theme}
+          onThemeToggle={handleThemeToggle}
         />
         <main className="mt-8 flex flex-col lg:flex-row gap-8">
           <div className="flex-grow">

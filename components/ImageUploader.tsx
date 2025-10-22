@@ -87,10 +87,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ id, title, description, o
     handleFileSelect(e.dataTransfer.files);
   };
 
-  const baseClasses = "relative group flex flex-col items-center justify-center w-full h-48 sm:h-64 bg-slate-800 border-2 border-dashed border-slate-600 rounded-lg cursor-pointer transition-all duration-300 ease-in-out";
-  const hoverClasses = "hover:border-teal-500 hover:bg-slate-700";
-  const dragClasses = isDragging ? "border-teal-400 bg-slate-700 scale-105" : "";
-  const errorClasses = uploadError ? "border-red-500" : "";
+  const baseClasses = "relative group flex flex-col items-center justify-center w-full h-48 sm:h-64 bg-gray-50 dark:bg-zinc-900 border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-lg cursor-pointer transition-all duration-300 ease-in-out";
+  const hoverClasses = "hover:border-[#864ffe] hover:bg-gray-100 dark:hover:bg-zinc-800";
+  const dragClasses = isDragging ? "border-[#864ffe] bg-gray-100 dark:bg-zinc-800 scale-105" : "";
+  const errorClasses = uploadError ? "border-[#e60080]" : "";
   
   return (
     <>
@@ -119,13 +119,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ id, title, description, o
           </>
         ) : (
           <div className="text-center p-4">
-            <UploadIcon className="mx-auto h-12 w-12 text-slate-500 group-hover:text-teal-400 transition-colors" />
-            <h3 className="mt-4 text-xl font-semibold text-slate-300">{title}</h3>
-            <p className="mt-1 text-sm text-slate-500">{description}</p>
+            <UploadIcon className="mx-auto h-12 w-12 text-gray-400 group-hover:text-[#864ffe] transition-colors" />
+            <h3 className="mt-4 text-xl font-semibold text-gray-800 dark:text-gray-200">{title}</h3>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{description}</p>
             {uploadError ? (
-                <p className="mt-4 text-sm font-medium text-red-400">{uploadError}</p>
+                <p className="mt-4 text-sm font-medium text-[#e60080]">{uploadError}</p>
             ) : (
-                <p className="mt-4 text-sm font-medium text-teal-400">Click or drag & drop to upload</p>
+                <p className="mt-4 text-sm font-medium text-[#864ffe]">Click or drag & drop to upload</p>
             )}
           </div>
         )}

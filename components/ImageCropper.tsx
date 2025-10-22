@@ -91,8 +91,8 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ src, originalFileName, onCr
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 animate-fade-in p-4">
-      <div className="bg-slate-800 rounded-lg shadow-2xl p-4 sm:p-6 w-full max-w-4xl flex flex-col">
-        <h2 className="text-2xl font-bold text-center mb-4 text-slate-200">Crop Your Image</h2>
+      <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-2xl p-4 sm:p-6 w-full max-w-4xl flex flex-col">
+        <h2 className="text-2xl font-bold text-center mb-4 text-gray-900 dark:text-gray-100">Crop Your Image</h2>
         <div className="flex justify-center items-center bg-black/50 rounded-md overflow-hidden flex-grow" style={{ minHeight: '50vh'}}>
           <ReactCrop
             crop={crop}
@@ -111,17 +111,17 @@ const ImageCropper: React.FC<ImageCropperProps> = ({ src, originalFileName, onCr
             />
           </ReactCrop>
         </div>
-        {cropError && <p className="text-center text-red-400 mt-4">{cropError}</p>}
+        {cropError && <p className="text-center text-[#e60080] mt-4">{cropError}</p>}
         <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           <button
             onClick={handleCropConfirm}
-            className="w-full sm:w-auto px-6 py-3 bg-teal-500 text-white font-bold rounded-lg shadow-lg hover:bg-teal-600 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-teal-500/50"
+            className="w-full sm:w-auto px-6 py-3 bg-[#864ffe] text-white font-bold rounded-lg shadow-lg hover:opacity-90 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#864ffe]/50"
           >
             Confirm Crop
           </button>
           <button
             onClick={onCancel}
-            className="w-full sm:w-auto px-6 py-3 bg-slate-600 text-white font-semibold rounded-lg shadow-md hover:bg-slate-700 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-slate-600/50"
+            className="w-full sm:w-auto px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 dark:bg-zinc-700 dark:hover:bg-zinc-600 transition-colors duration-300 focus:outline-none focus:ring-4 focus:ring-gray-500/50 dark:focus:ring-zinc-600/50"
           >
             Cancel
           </button>
